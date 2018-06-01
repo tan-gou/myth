@@ -14,19 +14,10 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 /**
- * <p>Description: .</p>
  * Rocketmq 发生消息服务
- *
- * @author xiaoyu(Myth)
- * @version 1.0
- * @date 2017/12/7 15:29
- * @since JDK 1.8
  */
 public class RocketmqSendServiceImpl implements MythMqSendService {
 
-    /**
-     * logger
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(RocketmqSendServiceImpl.class);
 
     private DefaultMQProducer defaultMQProducer;
@@ -63,6 +54,4 @@ public class RocketmqSendServiceImpl implements MythMqSendService {
             throw new MythRuntimeException();
         }
     }
-
-
 }

@@ -12,8 +12,8 @@
         <property name="retryTimesWhenSendFailed" value="10" />
     </bean>
 
-  <bean id="rocketmqSendService" class="com.github.myth.rocketmq.service.RocketmqSendServiceImpl">
-      <property name="defaultMQProducer" ref="defaultMQProducer"/>
-  </bean>
+    <bean id="rocketmqSendService" class="com.github.myth.rocketmq.service.RocketmqSendServiceImpl">
+        <property name="defaultMQProducer" ref="defaultMQProducer"/>
+    </bean>
 
 </beans>

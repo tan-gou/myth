@@ -26,20 +26,11 @@ package com.github.myth.annotation;
 @SuppressWarnings("ALL")
 public enum MessageTypeEnum {
 
-
-    /**
-     * P 2 p message type enum.
-     */
     P2P(1, "点对点模式"),
-
-
-    /**
-     * Topic message type enum.
-     */
-    TOPIC(2, "TOPIC模式");
+    TOPIC(2, "TOPIC模式"),
+    ;
 
     private Integer code;
-
     private String desc;
 
     MessageTypeEnum(Integer code, String desc) {
@@ -47,38 +38,16 @@ public enum MessageTypeEnum {
         this.desc = desc;
     }
 
-    /**
-     * Gets code.
-     *
-     * @return the code
-     */
     public Integer getCode() {
         return code;
     }
-
-    /**
-     * Sets code.
-     *
-     * @param code the code
-     */
     public void setCode(Integer code) {
         this.code = code;
     }
 
-    /**
-     * Gets desc.
-     *
-     * @return the desc
-     */
     public String getDesc() {
         return desc;
     }
-
-    /**
-     * Sets desc.
-     *
-     * @param desc the desc
-     */
     public void setDesc(String desc) {
         this.desc = desc;
     }

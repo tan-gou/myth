@@ -14,14 +14,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * <p>Description: .</p>
- *
- * @author xiaoyu(Myth)
- * @version 1.0
- * @date 2017/12/7 16:38
- * @since JDK 1.8
- */
 @Configuration
 public class AmqpConfig {
     private static final String EXCHANGE = "account";

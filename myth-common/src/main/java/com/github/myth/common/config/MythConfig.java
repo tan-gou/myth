@@ -1,32 +1,12 @@
-/*
- *
- * Copyright 2017-2018 549477611@qq.com(xiaoyu)
- *
- * This copyrighted material is made available to anyone wishing to use, modify,
- * copy, or redistribute it subject to the terms and conditions of the GNU
- * Lesser General Public License, as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License
- * for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this distribution; if not, see <http://www.gnu.org/licenses/>.
- *
- */
 package com.github.myth.common.config;
 
 import lombok.Data;
 
-/**
- * @author xiaoyu
- */
 @Data
 public class MythConfig {
 
     /**
-     * 资源后缀  此参数请填写  关于是事务存储路径
+     * 资源后缀  此参数请填写  关于事务存储路径
      * 1 如果是表存储 这个就是表名后缀，其他方式存储一样
      * 2 如果此参数不填写，那么会默认获取应用的applicationName
      */
@@ -87,7 +67,6 @@ public class MythConfig {
      * mongo配置
      */
     private MythMongoConfig mythMongoConfig;
-
 
     /**
      * redis配置
@@ -289,12 +268,9 @@ public class MythConfig {
             return mythFileConfig;
         }
 
-
         public MythConfig build() {
             return new MythConfig(this);
         }
-
     }
-
 
 }

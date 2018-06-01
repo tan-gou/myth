@@ -1,7 +1,7 @@
 package com.github.myth.demo.dubbo.inventory.mq;
 
-import java.util.List;
-
+import com.github.myth.common.config.MythConfig;
+import com.github.myth.core.service.MythMqReceiveService;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
@@ -14,17 +14,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
-import com.github.myth.common.config.MythConfig;
-import com.github.myth.core.service.MythMqReceiveService;
+import java.util.List;
 
-/**
- * <p>Description: .</p>
- *
- * @author xiaoyu(Myth)
- * @version 1.0
- * @date 2017/12/12 14:29
- * @since JDK 1.8
- */
+
 @Configuration
 @ConditionalOnProperty(prefix = "spring.rocketmq", name = "namesrvAddr")
 public class RocketmqConsumer {

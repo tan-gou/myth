@@ -12,14 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-/**
- * <p>Description: .</p>
- *
- * @author xiaoyu(Myth)
- * @version 1.0
- * @date 2017/12/11 10:28
- * @since JDK 1.8
- */
+
 @Component
 @ConditionalOnProperty(prefix = "spring.kafka.consumer", name = "bootstrap-servers")
 public class KafkaConsumer {

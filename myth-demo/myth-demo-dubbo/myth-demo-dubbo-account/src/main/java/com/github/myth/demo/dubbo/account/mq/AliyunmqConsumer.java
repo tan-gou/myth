@@ -14,14 +14,7 @@ import org.springframework.core.env.Environment;
 
 import java.util.Properties;
 
-/**
- * <p>Description: .</p>
- *
- * @author xiaoyu(Myth)
- * @version 1.0
- * @date 2017/12/12 14:29
- * @since JDK 1.8
- */
+
 @Configuration
 @ConditionalOnProperty(prefix = "spring.aliyunmq", name = "broker-url")
 public class AliyunmqConsumer {

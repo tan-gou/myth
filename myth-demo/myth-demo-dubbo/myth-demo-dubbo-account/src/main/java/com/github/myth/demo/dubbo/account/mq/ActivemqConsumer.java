@@ -8,12 +8,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
-/**
- * @author yu.xiao@happylifeplat.com
- * @version 1.0
- * @date 2017/8/23 17:58
- * @since JDK 1.8
- */
+
 @Component
 @ConditionalOnProperty(prefix = "spring.activemq", name = "broker-url")
 public class ActivemqConsumer {

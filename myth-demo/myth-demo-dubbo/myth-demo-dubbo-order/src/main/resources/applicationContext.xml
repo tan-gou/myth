@@ -31,7 +31,9 @@
        default-autowire="byName">
 
     <context:component-scan base-package="com.github.myth.*"/>
+
     <aop:aspectj-autoproxy expose-proxy="true"/>
+
     <bean id="mythTransactionBootstrap" class="com.github.myth.core.bootstrap.MythTransactionBootstrap">
         <property name="repositorySuffix" value="order-service"/>
         <property name="serializer" value="kryo"/>
@@ -51,14 +53,15 @@
             </bean>
         </property>
     </bean>
+
     <import resource="spring-dubbo.xml"/>
-    <import resource="spring-aliyunmq.xml"/>
-    <!--<import resource="spring-rocketmq.xml"/>-->
-<!--    <import resource="spring-rabbitmq.xml"/>-->
-<!--    <import resource="spring-kafka.xml"/>-->
-<!--
-    <import resource="spring-activemq.xml"/>
--->
+
+    <!--<import resource="spring-aliyunmq.xml"/>-->
+
+    <import resource="spring-rocketmq.xml"/>
+    <!--<import resource="spring-rabbitmq.xml"/>-->
+    <!--<import resource="spring-kafka.xml"/>-->
+    <!--<import resource="spring-activemq.xml"/> -->
 
     <!--
        <property name="repositorySupport" value="db"/>

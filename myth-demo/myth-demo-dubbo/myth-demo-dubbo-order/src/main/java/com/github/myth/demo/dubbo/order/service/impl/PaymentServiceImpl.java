@@ -1,23 +1,4 @@
-/*
- *
- * Copyright 2017-2018 549477611@qq.com(xiaoyu)
- *
- * This copyrighted material is made available to anyone wishing to use, modify,
- * copy, or redistribute it subject to the terms and conditions of the GNU
- * Lesser General Public License, as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License
- * for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this distribution; if not, see <http://www.gnu.org/licenses/>.
- *
- */
-
 package com.github.myth.demo.dubbo.order.service.impl;
-
 
 import com.github.myth.annotation.Myth;
 import com.github.myth.demo.dubbo.account.api.dto.AccountDTO;
@@ -35,16 +16,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * @author xiaoyu
- */
 @Service
 public class PaymentServiceImpl implements PaymentService {
 
-
-    /**
-     * logger
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(PaymentServiceImpl.class);
 
 
@@ -77,18 +51,19 @@ public class PaymentServiceImpl implements PaymentService {
         }
 
         final Inventory inventory = inventoryService.findByProductId(order.getProductId());
-
         if (inventory.getTotalInventory() < order.getCount()) {
             return;
         }
 
         order.setStatus(OrderStatusEnum.PAY_SUCCESS.getCode());
         orderMapper.update(order);
+
         //扣除用户余额
         AccountDTO accountDTO = new AccountDTO();
         accountDTO.setAmount(order.getTotalAmount());
         accountDTO.setUserId(order.getUserId());
         accountService.payment(accountDTO);
+
         //进入扣减库存操作
         InventoryDTO inventoryDTO = new InventoryDTO();
         inventoryDTO.setCount(order.getCount());
@@ -96,5 +71,4 @@ public class PaymentServiceImpl implements PaymentService {
         inventoryService.decrease(inventoryDTO);
         LOGGER.debug("=============Myth分布式事务执行完成！=======");
     }
-
 }
