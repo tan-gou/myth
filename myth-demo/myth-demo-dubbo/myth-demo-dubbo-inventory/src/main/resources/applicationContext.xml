@@ -45,7 +45,7 @@
                           value="jdbc:mysql://localhost:3306/myth?useUnicode=true&amp;characterEncoding=utf8"/>
                 <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
                 <property name="username" value="root"/>
-                <property name="password" value="123456"/>
+                <property name="password" value="Cao@123"/>
             </bean>
         </property>
     </bean>

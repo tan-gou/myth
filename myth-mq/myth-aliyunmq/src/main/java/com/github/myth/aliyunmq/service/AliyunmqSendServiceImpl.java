@@ -15,15 +15,10 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 /**
- * 功能 :
  * 阿里云消息队列实例
- * @author : Bruce(刘正航) 下午3:22 2018/3/9
  */
 public class AliyunmqSendServiceImpl implements MythMqSendService {
 
-    /**
-     * logger
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(AliyunmqSendServiceImpl.class);
 
 

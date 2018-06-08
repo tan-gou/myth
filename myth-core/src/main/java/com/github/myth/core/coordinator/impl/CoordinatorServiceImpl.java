@@ -1,23 +1,4 @@
-/*
- *
- * Copyright 2017-2018 549477611@qq.com(xiaoyu)
- *
- * This copyrighted material is made available to anyone wishing to use, modify,
- * copy, or redistribute it subject to the terms and conditions of the GNU
- * Lesser General Public License, as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License
- * for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this distribution; if not, see <http://www.gnu.org/licenses/>.
- *
- */
-
 package com.github.myth.core.coordinator.impl;
-
 
 import com.github.myth.common.bean.entity.MythTransaction;
 import com.github.myth.common.config.MythConfig;
@@ -35,34 +16,27 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 
-/**
- * @author xiaoyu
- */
 @Service("coordinatorService")
 public class CoordinatorServiceImpl implements CoordinatorService {
-
 
     private CoordinatorRepository coordinatorRepository;
 
     private final ApplicationService applicationService;
-
 
     @Autowired
     public CoordinatorServiceImpl(ApplicationService applicationService) {
         this.applicationService = applicationService;
     }
 
-
     @Override
     public void setSerializer(ObjectSerializer serializer) {
     }
 
-
     /**
      * 保存本地事务日志
      *
-     * @param mythConfig 配置信息
-     * @throws MythException 异常
+     * @param   mythConfig      配置信息
+     * @throws  MythException   异常
      */
     @Override
     public void start(MythConfig mythConfig) {
@@ -72,8 +46,6 @@ public class CoordinatorServiceImpl implements CoordinatorService {
         final String repositorySuffix = buildRepositorySuffix(mythConfig.getRepositorySuffix());
         //初始化spi 协调资源存储
         coordinatorRepository.init(repositorySuffix, mythConfig);
-
-
     }
 
 
@@ -98,7 +70,7 @@ public class CoordinatorServiceImpl implements CoordinatorService {
     }
 
     /**
-     * 获取延迟多长时间后的事务信息,只要为了防止并发的时候，刚新增的数据被执行
+     * 获取延迟多长时间后的事务信息,为了防止并发的时候，刚新增的数据被执行
      *
      * @param date 延迟后的时间
      * @return List<MythTransaction>

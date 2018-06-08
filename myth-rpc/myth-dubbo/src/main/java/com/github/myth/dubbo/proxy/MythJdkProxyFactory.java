@@ -7,9 +7,6 @@ import com.alibaba.dubbo.rpc.proxy.jdk.JdkProxyFactory;
 import java.lang.reflect.Proxy;
 
 
-/**
- * @author xiaoyu
- */
 public class MythJdkProxyFactory extends JdkProxyFactory {
 
     @Override

@@ -27,7 +27,6 @@ public class ScheduledService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ScheduledService.class);
 
-
     @Autowired
     private MythSendMessageService mythSendMessageService;
 
@@ -38,11 +37,12 @@ public class ScheduledService {
     private MythTransactionEventPublisher publisher;
 
     public void scheduledAutoRecover(MythConfig mythConfig) {
+
         new ScheduledThreadPoolExecutor(1,
                 MythTransactionThreadFactory.create("MythAutoRecoverService",
                         true)).scheduleWithFixedDelay(() -> {
-            LogUtil.debug(LOGGER, "auto recover execute delayTime:{}",
-                    mythConfig::getScheduledDelay);
+            LogUtil.debug(LOGGER, "auto recover execute delayTime:{}", mythConfig::getScheduledDelay);
+
             try {
                 final List<MythTransaction> mythTransactionList =
                         coordinatorService.listAllByDelay(acquireData(mythConfig));
@@ -54,7 +54,6 @@ public class ScheduledService {
                                 if (success) {
                                     mythTransaction.setStatus(MythStatusEnum.COMMIT.getCode());
                                     publisher.publishEvent(mythTransaction, EventTypeEnum.UPDATE_STATUS.getCode());
-
                                 }
                             });
                 }

@@ -31,7 +31,7 @@ public class RocketmqSendServiceImpl implements MythMqSendService {
      *
      * @param destination 队列
      * @param pattern     mq 模式
-     * @param message     MythTransaction实体对象转换成byte[]后的数据
+     * @param message     消息数据
      */
     @Override
     public void sendMessage(String destination, Integer pattern, byte[] message) {

@@ -9,16 +9,10 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.support.CorrelationData;
 
 /**
- * <p>Description: .</p>
- *  Rabbitmq 发生消息服务
- * @author xiaoyu(Myth)
- * @version 1.0
- * @date 2017/12/7 15:29
- * @since JDK 1.8
+ *  Rabbitmq 发消息
  */
 public class RabbitmqSendServiceImpl implements MythMqSendService,RabbitTemplate.ConfirmCallback{
 
-    /** logger */
     private static final Logger LOGGER = LoggerFactory.getLogger(RabbitmqSendServiceImpl.class);
 
     private AmqpTemplate amqpTemplate;
@@ -29,16 +23,11 @@ public class RabbitmqSendServiceImpl implements MythMqSendService,RabbitTemplate
 
     /**
      * 发送消息
-     *
-     * @param destination 队列
-     * @param pattern     mq 模式
-     * @param message     MythTransaction实体对象转换成byte[]后的数据
      */
     @Override
     public void sendMessage(String destination, Integer pattern, byte[] message) {
         amqpTemplate.convertAndSend(destination, message);
     }
-
 
 
     /**

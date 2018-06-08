@@ -18,22 +18,12 @@ import org.springframework.core.env.Environment;
 
 import java.util.List;
 
-/**
- * <p>Description: .</p>
- *
- * @author xiaoyu(Myth)
- * @version 1.0
- * @date 2017/12/12 14:29
- * @since JDK 1.8
- */
 @Configuration
 @ConditionalOnProperty(prefix = "spring.rocketmq", name = "namesrvAddr")
 public class RocketmqConsumer {
 
-    /**
-     * logger
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(RocketmqConsumer.class);
+
     private static final String TOPIC = "account";
 
     @Autowired

@@ -34,5 +34,4 @@
     <dubbo:service interface="com.github.myth.demo.dubbo.account.api.service.AccountService"
                    ref="accountService"/>
 
-
 </beans>
