@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
 
+
 public enum SerializeEnum {
 
     JDK("jdk"),
@@ -13,7 +14,8 @@ public enum SerializeEnum {
 
     HESSIAN("hessian"),
 
-    PROTOSTUFF("protostuff");
+    PROTOSTUFF("protostuff"),
+    ;
 
     private String serialize;
 
