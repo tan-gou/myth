@@ -1,21 +1,3 @@
-/*
- *
- * Copyright 2017-2018 549477611@qq.com(xiaoyu)
- *
- * This copyrighted material is made available to anyone wishing to use, modify,
- * copy, or redistribute it subject to the terms and conditions of the GNU
- * Lesser General Public License, as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License
- * for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this distribution; if not, see <http://www.gnu.org/licenses/>.
- *
- */
-
 package com.github.myth.core.service.mq.receive;
 
 import com.github.myth.common.bean.context.MythTransactionContext;
@@ -46,20 +28,13 @@ import java.util.Objects;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+
 /**
- * <p>Description: .</p>
- *
- * @author xiaoyu(Myth)
- * @version 1.0
- * @date 2017/11/30 13:59
- * @since JDK 1.8
+ * myth框架处理发出的mq消息
  */
 @Service("mythMqReceiveService")
 public class MythMqReceiveServiceImpl implements MythMqReceiveService {
 
-    /**
-     * logger
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(MythMqReceiveServiceImpl.class);
 
 
@@ -82,8 +57,8 @@ public class MythMqReceiveServiceImpl implements MythMqReceiveService {
     /**
      * myth框架处理发出的mq消息
      *
-     * @param message 实体对象转换成byte[]后的数据
-     * @return true 成功 false 失败
+     * @param   message 实体对象转换成byte[]后的数据
+     * @return  true 成功 false 失败
      */
     @Override
     public Boolean processMessage(byte[] message) {
@@ -95,9 +70,10 @@ public class MythMqReceiveServiceImpl implements MythMqReceiveService {
                 e.printStackTrace();
                 throw new MythRuntimeException(e.getMessage());
             }
-            /*
+
+            /**
              * 1 检查该事务有没被处理过，已经处理过的 则不处理
-             * 2 发起发射调用，调用接口，进行处理
+             * 2 发起反射调用，调用接口，进行处理
              * 3 记录本地日志
              */
             LOCK.lock();
@@ -110,19 +86,21 @@ public class MythMqReceiveServiceImpl implements MythMqReceiveService {
                 try {
                     execute(entity);
                     //执行成功 保存成功的日志
-                    final MythTransaction log = buildTransactionLog(transId, "",
+                    final MythTransaction mythTransactionLog = buildTransactionLog(transId, "",
                             MythStatusEnum.COMMIT.getCode(),
                             entity.getMythInvocation().getTargetClass().getName(),
                             entity.getMythInvocation().getMethodName());
-                    //submit(new CoordinatorAction(CoordinatorActionEnum.SAVE, log));
-                    publisher.publishEvent(log, EventTypeEnum.SAVE.getCode());
+
+                    publisher.publishEvent(mythTransactionLog, EventTypeEnum.SAVE.getCode());
                 } catch (Exception e) {
                     //执行失败保存失败的日志
-                    final MythTransaction log = buildTransactionLog(transId, e.getMessage(),
+                    final MythTransaction mythTransactionLog = buildTransactionLog(transId, e.getMessage(),
                             MythStatusEnum.FAILURE.getCode(),
                             entity.getMythInvocation().getTargetClass().getName(),
                             entity.getMythInvocation().getMethodName());
-                    publisher.publishEvent(log, EventTypeEnum.SAVE.getCode());
+
+                    publisher.publishEvent(mythTransactionLog, EventTypeEnum.SAVE.getCode());
+
                     throw new MythRuntimeException(e);
                 } finally {
                     TransactionContextLocal.getInstance().remove();
@@ -149,6 +127,7 @@ public class MythMqReceiveServiceImpl implements MythMqReceiveService {
                         mythTransaction.setErrorMsg(e.getCause().getMessage());
                         mythTransaction.setRetriedCount(mythTransaction.getRetriedCount() + 1);
                         publisher.publishEvent(mythTransaction, EventTypeEnum.UPDATE_FAIR.getCode());
+
                         throw new MythRuntimeException(e);
                     } finally {
                         TransactionContextLocal.getInstance().remove();
@@ -164,12 +143,11 @@ public class MythMqReceiveServiceImpl implements MythMqReceiveService {
 
 
     private void execute(MessageEntity entity) throws Exception {
-        //设置事务上下文，这个类会传递给远端
+        // 设置事务上下文，这个类会传递给远端
         MythTransactionContext context = new MythTransactionContext();
         //设置事务id
         context.setTransId(entity.getTransId());
-
-        //设置为发起者角色
+        //设置为 本地执行者
         context.setRole(MythRoleEnum.LOCAL.getCode());
 
         TransactionContextLocal.getInstance().set(context);
@@ -178,6 +156,9 @@ public class MythMqReceiveServiceImpl implements MythMqReceiveService {
     }
 
 
+    /**
+     * 反射调用方法，执行本地事务
+     */
     @SuppressWarnings("unchecked")
     private void executeLocalTransaction(MythInvocation mythInvocation) throws Exception {
         if (Objects.nonNull(mythInvocation)) {
@@ -185,23 +166,28 @@ public class MythMqReceiveServiceImpl implements MythMqReceiveService {
             final String method = mythInvocation.getMethodName();
             final Object[] args = mythInvocation.getArgs();
             final Class[] parameterTypes = mythInvocation.getParameterTypes();
+
             final Object bean = SpringBeanUtils.getInstance().getBean(clazz);
             MethodUtils.invokeMethod(bean, method, args, parameterTypes);
-            LogUtil.debug(LOGGER, "Myth执行本地协调事务:{}", () -> mythInvocation.getTargetClass()
-                    + ":" + mythInvocation.getMethodName());
+
+            LogUtil.debug(LOGGER, "Myth执行本地协调事务:{}",
+                    () -> mythInvocation.getTargetClass() + ":" + mythInvocation.getMethodName());
         }
     }
 
-    private MythTransaction buildTransactionLog(String transId, String errorMsg, Integer status, String targetClass, String targetMethod) {
+    private MythTransaction buildTransactionLog(String transId, String errorMsg, Integer status,
+                                                String targetClass, String targetMethod) {
         MythTransaction logTransaction = new MythTransaction(transId);
         logTransaction.setRetriedCount(1);
         logTransaction.setStatus(status);
         logTransaction.setErrorMsg(errorMsg);
+        // 事务提供者
         logTransaction.setRole(MythRoleEnum.PROVIDER.getCode());
         logTransaction.setTargetClass(targetClass);
         logTransaction.setTargetMethod(targetMethod);
         return logTransaction;
     }
+
 
     private synchronized ObjectSerializer getObjectSerializer() {
         if (serializer == null) {
