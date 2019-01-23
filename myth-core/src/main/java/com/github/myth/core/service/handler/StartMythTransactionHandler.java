@@ -8,16 +8,11 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
 /**
- * Myth分布式事务发起者， 即分布式事务接口的入口 会进入该handler
+ * 分布式事务发起者 handler
  */
 @Component
 public class StartMythTransactionHandler implements MythTransactionHandler {
-
-    private static final Lock LOCK = new ReentrantLock();
 
     private final MythTransactionEngine mythTransactionEngine;
 
