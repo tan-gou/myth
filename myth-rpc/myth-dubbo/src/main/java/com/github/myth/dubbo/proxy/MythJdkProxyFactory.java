@@ -7,9 +7,6 @@ import com.alibaba.dubbo.rpc.proxy.jdk.JdkProxyFactory;
 import java.lang.reflect.Proxy;
 
 
-/**
- * @author xiaoyu
- */
 public class MythJdkProxyFactory extends JdkProxyFactory {
 
     @Override
@@ -17,8 +14,8 @@ public class MythJdkProxyFactory extends JdkProxyFactory {
     public <T> T getProxy(Invoker<T> invoker, Class<?>[] interfaces) {
         T proxy = (T)Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
                 interfaces, new InvokerInvocationHandler(invoker));
-        return  (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
-                interfaces, new MythInvokerInvocationHandler(proxy,invoker));
 
+        return  (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
+                interfaces, new MythInvokerInvocationHandler(proxy, invoker));
     }
 }

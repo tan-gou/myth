@@ -1,21 +1,3 @@
-/*
- *
- * Copyright 2017-2018 549477611@qq.com(xiaoyu)
- *
- * This copyrighted material is made available to anyone wishing to use, modify,
- * copy, or redistribute it subject to the terms and conditions of the GNU
- * Lesser General Public License, as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License
- * for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this distribution; if not, see <http://www.gnu.org/licenses/>.
- *
- */
-
 package com.github.myth.core.coordinator.impl;
 
 
@@ -35,9 +17,6 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 
-/**
- * @author xiaoyu
- */
 @Service("coordinatorService")
 public class CoordinatorServiceImpl implements CoordinatorService {
 
@@ -59,21 +38,14 @@ public class CoordinatorServiceImpl implements CoordinatorService {
 
 
     /**
-     * 保存本地事务日志
-     *
-     * @param mythConfig 配置信息
-     * @throws MythException 异常
+     * 创建本地事务日志记录表
      */
     @Override
     public void start(MythConfig mythConfig) {
-
         coordinatorRepository = SpringBeanUtils.getInstance().getBean(CoordinatorRepository.class);
-
         final String repositorySuffix = buildRepositorySuffix(mythConfig.getRepositorySuffix());
-        //初始化spi 协调资源存储
+        // 创建事务记录表
         coordinatorRepository.init(repositorySuffix, mythConfig);
-
-
     }
 
 
@@ -176,8 +148,5 @@ public class CoordinatorServiceImpl implements CoordinatorService {
         } else {
             return applicationService.acquireName();
         }
-
     }
-
-
 }

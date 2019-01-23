@@ -31,15 +31,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-/**
- * @author xiaoyu
- */
 @Service("inventoryService")
 public class InventoryServiceImpl implements InventoryService {
 
-    /**
-     * logger
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(InventoryServiceImpl.class);
 
 
@@ -84,6 +78,4 @@ public class InventoryServiceImpl implements InventoryService {
     public Inventory findByProductId(String productId) {
         return inventoryMapper.findByProductId(productId);
     }
-
-
 }

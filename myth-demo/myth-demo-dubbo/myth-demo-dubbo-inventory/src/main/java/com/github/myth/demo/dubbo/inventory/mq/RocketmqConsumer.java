@@ -17,14 +17,6 @@ import org.springframework.core.env.Environment;
 import com.github.myth.common.config.MythConfig;
 import com.github.myth.core.service.MythMqReceiveService;
 
-/**
- * <p>Description: .</p>
- *
- * @author xiaoyu(Myth)
- * @version 1.0
- * @date 2017/12/12 14:29
- * @since JDK 1.8
- */
 @Configuration
 @ConditionalOnProperty(prefix = "spring.rocketmq", name = "namesrvAddr")
 public class RocketmqConsumer {
@@ -73,7 +65,7 @@ public class RocketmqConsumer {
 
             } catch (Exception e) {
                 e.printStackTrace();
-                //重复消费
+                // 重试消费
                 return ConsumeConcurrentlyStatus.RECONSUME_LATER;
             }
 

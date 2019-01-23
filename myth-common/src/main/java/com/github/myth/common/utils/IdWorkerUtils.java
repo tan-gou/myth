@@ -1,27 +1,9 @@
-/*
- *
- * Copyright 2017-2018 549477611@qq.com(xiaoyu)
- *
- * This copyrighted material is made available to anyone wishing to use, modify,
- * copy, or redistribute it subject to the terms and conditions of the GNU
- * Lesser General Public License, as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License
- * for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this distribution; if not, see <http://www.gnu.org/licenses/>.
- *
- */
 package com.github.myth.common.utils;
 
 import java.util.UUID;
 
-
 /**
- * @author xiaoyu
+ * 基于 twiter 的 snowflake 算法的 ID 生成器
  */
 public final class IdWorkerUtils {
 
@@ -43,12 +25,11 @@ public final class IdWorkerUtils {
 
     private static final IdWorkerUtils ID_WORKER_UTILS = new IdWorkerUtils();
 
-    public static IdWorkerUtils getInstance() {
-        return ID_WORKER_UTILS;
+    private IdWorkerUtils() {
     }
 
-    private IdWorkerUtils() {
-
+    public static IdWorkerUtils getInstance() {
+        return ID_WORKER_UTILS;
     }
 
     private IdWorkerUtils(long workerId, long datacenterId) {
@@ -93,18 +74,11 @@ public final class IdWorkerUtils {
         return System.currentTimeMillis();
     }
 
-
-
     public String createUUID() {
         return String.valueOf(UUID.randomUUID().hashCode() & 0x7fffffff);
     }
 
     public long randomUUID() {
         return ID_WORKER_UTILS.nextId();
-    }
-
-
-    public static void main(String[] args) {
-
     }
 }

@@ -50,9 +50,5 @@ public class OrderController {
                            @RequestParam(value = "amount") BigDecimal amount) {
 
         return orderService.orderPay(count, amount);
-
     }
-
-
-
 }

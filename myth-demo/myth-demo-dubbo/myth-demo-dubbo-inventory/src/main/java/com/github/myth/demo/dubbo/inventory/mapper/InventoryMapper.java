@@ -22,12 +22,8 @@ import com.github.myth.demo.dubbo.inventory.api.entity.Inventory;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-/**
- * @author xiaoyu
- */
+
 public interface InventoryMapper {
-
-
 
     /**
      * 库存扣减

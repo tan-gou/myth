@@ -17,7 +17,7 @@ import java.util.Objects;
 
 
 /**
- * @author xiaoyu
+ *
  */
 public class MythInvokerInvocationHandler extends InvokerInvocationHandler {
 
@@ -63,36 +63,29 @@ public class MythInvokerInvocationHandler extends InvokerInvocationHandler {
         } else {
             return super.invoke(target, method, args);
         }
-
-
     }
 
 
-
-
+    /**
+     * 事务执行参与者
+     */
     private MythParticipant buildParticipant(MythTransactionContext mythTransactionContext,
                                              Myth myth, Method method,
                                              Class clazz, Object[] arguments,
-                                             Class... args)
-            throws MythRuntimeException {
+                                             Class... args) throws MythRuntimeException {
 
         if (Objects.nonNull(mythTransactionContext)) {
-
-            MythInvocation mythInvocation = new MythInvocation(clazz,
-                    method.getName(),
-                    args, arguments);
-
+            MythInvocation mythInvocation = new MythInvocation(clazz, method.getName(), args, arguments);
 
             //有tags的消息队列的特殊处理
             final String destination;
-            if( Objects.nonNull(myth.tags()) && myth.tags().length() > 0 ){
+            if ( Objects.nonNull(myth.tags()) && myth.tags().length() > 0 ){
                 destination = myth.destination()+","+myth.tags();
-            }else{
+            } else {
                 destination = myth.destination();
             }
 
             final Integer pattern = myth.pattern().getCode();
-
 
             //封装调用点
             return new MythParticipant(
@@ -100,12 +93,9 @@ public class MythInvokerInvocationHandler extends InvokerInvocationHandler {
                     destination,
                     pattern,
                     mythInvocation);
-
         }
 
         return null;
-
-
     }
 
 }

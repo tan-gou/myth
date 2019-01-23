@@ -1,21 +1,3 @@
-/*
- *
- * Copyright 2017-2018 549477611@qq.com(xiaoyu)
- *
- * This copyrighted material is made available to anyone wishing to use, modify,
- * copy, or redistribute it subject to the terms and conditions of the GNU
- * Lesser General Public License, as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License
- * for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this distribution; if not, see <http://www.gnu.org/licenses/>.
- *
- */
-
 package com.github.myth.core.service.impl;
 
 import com.github.myth.common.config.MythConfig;
@@ -42,19 +24,11 @@ import java.util.ServiceLoader;
 import java.util.stream.StreamSupport;
 
 /**
- * <p>Description: .</p>
- *
- * @author xiaoyu(Myth)
- * @version 1.0
- * @date 2017/11/29 11:44
- * @since JDK 1.8
+ *  分布式事务初始化
  */
 @Service
 public class MythInitServiceImpl implements MythInitService {
 
-    /**
-     * logger
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(MythInitServiceImpl.class);
 
     private final CoordinatorService coordinatorService;
@@ -73,8 +47,6 @@ public class MythInitServiceImpl implements MythInitService {
 
     /**
      * Myth分布式事务初始化方法
-     *
-     * @param mythConfig TCC配置
      */
     @Override
     public void initialization(MythConfig mythConfig) {
@@ -97,21 +69,18 @@ public class MythInitServiceImpl implements MythInitService {
     }
 
     /**
-     * 根据配置文件初始化spi
+     * 根据配置文件初始化spi （序列化组件 和 存储组件）
      *
      * @param mythConfig 配置信息
      */
     private void loadSpiSupport(MythConfig mythConfig) {
 
-        //spi  serialize
-        final SerializeEnum serializeEnum =
-                SerializeEnum.acquire(mythConfig.getSerializer());
-        final ServiceLoader<ObjectSerializer> objectSerializers =
-                ServiceBootstrap.loadAll(ObjectSerializer.class);
+        // spi  serialize
+        final SerializeEnum serializeEnum = SerializeEnum.acquire(mythConfig.getSerializer());
+        final ServiceLoader<ObjectSerializer> objectSerializers = ServiceBootstrap.loadAll(ObjectSerializer.class);
 
         final ObjectSerializer serializer =
-                StreamSupport.stream(objectSerializers.spliterator(),
-                        true)
+                StreamSupport.stream(objectSerializers.spliterator(), true)
                         .filter(objectSerializer ->
                                 Objects.equals(objectSerializer.getScheme(),
                                         serializeEnum.getSerialize()))
@@ -122,10 +91,8 @@ public class MythInitServiceImpl implements MythInitService {
         SpringBeanUtils.getInstance().registerBean(ObjectSerializer.class.getName(), serializer);
 
         //spi  repository support
-        final RepositorySupportEnum repositorySupportEnum =
-                RepositorySupportEnum.acquire(mythConfig.getRepositorySupport());
-        final ServiceLoader<CoordinatorRepository> recoverRepositories =
-                ServiceBootstrap.loadAll(CoordinatorRepository.class);
+        final RepositorySupportEnum repositorySupportEnum = RepositorySupportEnum.acquire(mythConfig.getRepositorySupport());
+        final ServiceLoader<CoordinatorRepository> recoverRepositories = ServiceBootstrap.loadAll(CoordinatorRepository.class);
 
 
         final CoordinatorRepository repository =
@@ -135,10 +102,8 @@ public class MythInitServiceImpl implements MythInitService {
                                         repositorySupportEnum.getSupport())).findFirst()
                         .orElse(new JdbcCoordinatorRepository());
 
-        //将CoordinatorRepository实现注入到spring容器
         repository.setSerializer(serializer);
+        // 将CoordinatorRepository实现注入到spring容器
         SpringBeanUtils.getInstance().registerBean(CoordinatorRepository.class.getName(), repository);
-
-
     }
 }

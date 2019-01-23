@@ -1,20 +1,3 @@
-/*
- *
- * Copyright 2017-2018 549477611@qq.com(xiaoyu)
- *
- * This copyrighted material is made available to anyone wishing to use, modify,
- * copy, or redistribute it subject to the terms and conditions of the GNU
- * Lesser General Public License, as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License
- * for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this distribution; if not, see <http://www.gnu.org/licenses/>.
- *
- */
 package com.github.myth.core.spi.repository;
 
 import com.alibaba.druid.pool.DruidDataSource;
@@ -48,9 +31,6 @@ import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
-/**
- * @author xiaoyu
- */
 @SuppressWarnings("unchecked")
 public class JdbcCoordinatorRepository implements CoordinatorRepository {
 
@@ -58,7 +38,6 @@ public class JdbcCoordinatorRepository implements CoordinatorRepository {
     private Logger logger = LoggerFactory.getLogger(JdbcCoordinatorRepository.class);
 
     private DruidDataSource dataSource;
-
 
     private String tableName;
 
@@ -157,7 +136,6 @@ public class JdbcCoordinatorRepository implements CoordinatorRepository {
                 mythTransaction.getRetriedCount(),
                 mythTransaction.getLastTime(),
                 mythTransaction.getTransId());
-
     }
 
     /**
@@ -174,15 +152,11 @@ public class JdbcCoordinatorRepository implements CoordinatorRepository {
         try {
             final byte[] serialize = serializer.serialize(mythTransaction.getMythParticipants());
 
-            return executeUpdate(sql, serialize,
-                    mythTransaction.getTransId());
-
+            return executeUpdate(sql, serialize, mythTransaction.getTransId());
         } catch (MythException e) {
             e.printStackTrace();
             throw new MythRuntimeException(e.getMessage());
         }
-
-
     }
 
     /**
@@ -194,11 +168,8 @@ public class JdbcCoordinatorRepository implements CoordinatorRepository {
      */
     @Override
     public int updateStatus(String id, Integer status) throws MythRuntimeException {
-        String sql = "update " + tableName +
-                " set status=?  where trans_id = ?  ";
+        String sql = "update " + tableName + " set status=?  where trans_id = ?  ";
         return executeUpdate(sql, status, id);
-
-
     }
 
 

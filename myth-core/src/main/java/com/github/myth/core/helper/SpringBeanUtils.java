@@ -1,20 +1,3 @@
-/*
- *
- * Copyright 2017-2018 549477611@qq.com(xiaoyu)
- *
- * This copyrighted material is made available to anyone wishing to use, modify,
- * copy, or redistribute it subject to the terms and conditions of the GNU
- * Lesser General Public License, as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License
- * for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this distribution; if not, see <http://www.gnu.org/licenses/>.
- *
- */
 package com.github.myth.core.helper;
 
 import com.github.myth.common.utils.AssertUtils;
@@ -28,19 +11,12 @@ import org.springframework.context.ConfigurableApplicationContext;
 import java.lang.annotation.Annotation;
 import java.util.Map;
 
-
-/**
- * @author xiaoyu
- */
 public class SpringBeanUtils {
-    /**
-     * logger
-     */
+
     private static final Logger LOGGER = LoggerFactory.getLogger(SpringBeanUtils.class);
+
     private ConfigurableApplicationContext cfgContext;
-    /**
-     * 实体对象
-     */
+
     private static final SpringBeanUtils INSTANCE = new SpringBeanUtils();
 
     private SpringBeanUtils() {
@@ -55,8 +31,6 @@ public class SpringBeanUtils {
 
     /**
      * 防止序列化产生对象
-     *
-     * @return 防止序列化
      */
     private Object readResolve() {
         return INSTANCE;
@@ -122,8 +96,6 @@ public class SpringBeanUtils {
 
     /**
      * 注册Bean信息
-     *
-     * @param beanDefinition
      */
     public void registerBean(String beanName, BeanDefinition beanDefinition) {
         BeanDefinitionRegistry beanDefinitionRegistry = (BeanDefinitionRegistry) cfgContext.getBeanFactory();

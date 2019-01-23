@@ -31,17 +31,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
-/**
- * @author xiaoyu
- */
+
 @Service("accountService")
 public class AccountServiceImpl implements AccountService {
 
-    /**
-     * logger
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountServiceImpl.class);
-
 
     private final AccountMapper accountMapper;
 
@@ -83,5 +77,4 @@ public class AccountServiceImpl implements AccountService {
     public AccountDO findByUserId(String  userId) {
         return accountMapper.findByUserId(userId);
     }
-
 }
